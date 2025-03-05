@@ -20,7 +20,7 @@ function App() {
       id: 1,
       name: "Spaghetti Carbonara",
       image: carbonaraImage,
-      description: "Classic Italian pasta dish with eggs, cheese, pancetta, and pepper.",
+      description: "Classic Italian pasta dish with egg, cheese, pancetta, and pepper.",
       price: "Rs.600",
       category: "Italian",
       rating: 4.5,
