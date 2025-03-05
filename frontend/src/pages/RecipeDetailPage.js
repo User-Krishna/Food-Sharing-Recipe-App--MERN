@@ -8,9 +8,10 @@ const RecipeDetailPage = () => {
   const [recipe, setRecipe] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [updatedRecipe, setUpdatedRecipe] = useState(null);
+  const defaultImage = "https://via.placeholder.com/300";
 
   useEffect(() => {
-    const fetchRecipeDetails = () => {
+    const fetchRecipeDetails = async () => {
       const recipes = [
         {
           id: 1,
@@ -236,8 +237,8 @@ const RecipeDetailPage = () => {
           ingredients: ["Dark chocolate", "Butter", "Sugar", "Eggs", "Flour", "Vanilla ice cream"],
           instructions: "Melt chocolate and butter, mix with eggs and flour, bake until edges are set, serve with ice cream."
         }
-      ];
 
+      ];
       const selectedRecipe = recipes.find(recipe => recipe.id === parseInt(id));
       setRecipe(selectedRecipe);
       setUpdatedRecipe(selectedRecipe);
@@ -248,34 +249,48 @@ const RecipeDetailPage = () => {
 
   if (!recipe) return <div>Loading...</div>;
 
-  // Handle Edit Button Click
-  const handleEdit = () => {
-    setEditMode(true);
-  };
-
-  // Handle Change in Inputs
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedRecipe({ ...updatedRecipe, [name]: value });
-  };
-
-  // Handle Update
+  const handleEdit = () => setEditMode(true);
+  const handleChange = (e) => setUpdatedRecipe({ ...updatedRecipe, [e.target.name]: e.target.value });
   const handleUpdate = () => {
     setRecipe(updatedRecipe);
     setEditMode(false);
   };
-
-  // Handle Delete
   const handleDelete = () => {
     alert('Recipe deleted successfully!');
-    navigate('/');
+    navigate('/home');
+  };
+
+  const handleShare = (platform) => {
+    const message = `🍝 Check out this delicious recipe!\n\n🔹 ${recipe.name}\n\n📖 ${recipe.description}\n\n🌍 Category: ${recipe.category}\n💰 Price: ${recipe.price}\n⭐ Rating: ${recipe.rating}\n🥗 Dietary: ${recipe.dietary.join(', ')}\n⏳ Time: ${recipe.cookingTime}\n👨‍👩‍👧 Servings: ${recipe.servings}\n\n🛒 Ingredients:\n${recipe.ingredients.map(ing => `- ${ing}`).join('\n')}\n\n👨‍🍳 Instructions:\n${recipe.instructions}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const recipeUrl = encodeURIComponent(window.location.href);
+
+    let shareUrl = "";
+    switch (platform) {
+      case "WhatsApp":
+        shareUrl = `https://wa.me/?text=${encodedMessage}`;
+        break;
+      case "Facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${recipeUrl}`;
+        break;
+      case "Twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodedMessage}`;
+        break;
+      case "Email":
+        shareUrl = `mailto:?subject=Check out this recipe!&body=${encodedMessage}`;
+        break;
+      default:
+        return;
+    }
+    window.open(shareUrl, '_blank');
   };
 
   return (
     <div className="recipe-detail-container">
       <div className="recipe-detail">
         <div className="recipe-image-container1">
-          <img src={recipe.image} alt={recipe.name} className="recipe-image1" />
+          <img src={recipe.image || defaultImage} alt={recipe.name} className="recipe-image1" />
         </div>
 
         <div className="recipe-info">
@@ -284,8 +299,6 @@ const RecipeDetailPage = () => {
               <input type="text" name="name" value={updatedRecipe.name} onChange={handleChange} className="edit-input" />
               <textarea name="description" value={updatedRecipe.description} onChange={handleChange} className="edit-textarea" />
               <input type="text" name="price" value={updatedRecipe.price} onChange={handleChange} className="edit-input" />
-              <input type="text" name="category" value={updatedRecipe.category} onChange={handleChange} className="edit-input" />
-              <input type="text" name="cookingTime" value={updatedRecipe.cookingTime} onChange={handleChange} className="edit-input" />
               <button onClick={handleUpdate} className="update-btn">Update</button>
             </>
           ) : (
@@ -296,7 +309,7 @@ const RecipeDetailPage = () => {
               <div className="recipe-additional-details">
                 <p><strong>Category:</strong> {recipe.category}</p>
                 <p><strong>Price:</strong> {recipe.price}</p>
-                <p><strong>Rating:</strong> {recipe.rating} &#9733;</p>
+                <p><strong>Rating:</strong> {recipe.rating} ⭐</p>
                 <p><strong>Dietary Preferences:</strong> {recipe.dietary.join(', ')}</p>
                 <p><strong>Cooking Time:</strong> {recipe.cookingTime}</p>
                 <p><strong>Servings:</strong> {recipe.servings}</p>
@@ -320,24 +333,33 @@ const RecipeDetailPage = () => {
 
           <button className="edit-btn" onClick={handleEdit}>Edit</button>
           <button className="delete-btn" onClick={handleDelete}>Delete</button>
+          <div className="share-buttons">
+          <p style={{ fontSize: '18px', fontWeight: 'bold', textAlign: 'center', marginRight: '19rem' }}>
+  Share Recipe:
+</p>
+
+  <div className="social-icons">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" 
+         alt="WhatsApp" className="share-icon" 
+         onClick={() => handleShare("WhatsApp")} />
+
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" 
+         alt="Facebook" className="share-icon" 
+         onClick={() => handleShare("Facebook")} />
+
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" 
+         alt="Twitter" className="share-icon" 
+         onClick={() => handleShare("Twitter")} />
+
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" 
+         alt="Email" className="share-icon" 
+         onClick={() => handleShare("Email")} />
+  </div>
+</div>
+
         </div>
       </div>
-
-      <Link
-        to="/"
-        className="back-link"
-        style={{
-          display: 'block',
-          textAlign: 'center',
-          margin: '20px auto',
-          color: '#007bff',
-          textDecoration: 'none',
-          fontSize: '28px',
-          fontWeight: 'bold'
-        }}
-      >
-        Back to Home
-      </Link>
+      <Link to="/home" className="back-link" style={{ display: 'block', textAlign: 'center', marginTop: '20px', fontSize: '27px', fontWeight: 'bold' }}>Back to Home</Link>
     </div>
   );
 };

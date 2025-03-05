@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './HomePage.css'; // Importing CSS for styling
 import { Link } from 'react-router-dom';
 
+
 const images = [
   require('../pages/images/hero1.jpg'), // Update with actual image paths
   require('../pages/images/hero2.jpg'),
@@ -296,6 +297,7 @@ const HomePage = () => {
     return pages;
   };
 
+  
   const currentRecipess = recipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
 
@@ -336,13 +338,17 @@ const HomePage = () => {
           </div>
 
           <div className="header-actions">
-            <a href="/" className="home-btn-link">
-              <button className="home-btn">Home</button>
-            </a>
-            <a href="/login" className="login-btn-link">
-              <button className="login-btn">Login</button>
-            </a>
-          </div>
+  <a href="/home" className="icon-link">
+    <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Home" className="nav-icon" />
+  </a>
+  <a href="/login" className="icon-link">
+    <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Login" className="nav-icon" />
+  </a>
+  <a href="/logout" className="icon-link">
+    <img src="https://cdn-icons-png.flaticon.com/512/1828/1828427.png" alt="Logout" className="nav-icon" />
+  </a>
+</div>
+
         </div>
         <div className="header-right">
           <div className="search-bar">
@@ -433,11 +439,12 @@ const HomePage = () => {
                   <button
                     className="recipe-btn view-details"
                     style={{
-                      width: '97%',  // Adjust the width
+                      width: '95%',  // Adjust the width
                       maxWidth: '250px', // Optional: Set a max width
                       backgroundColor: '#4CAF50',
                       color: 'white',
-                      padding: '10px 40px',
+                      padding: '10px 45px',
+
                     }}
                   >
                     View Details
@@ -445,28 +452,18 @@ const HomePage = () => {
 
                 </Link>
 
-                <button onClick={() => setCart([...cart, recipe])} className="recipe-btn save-btn">
+                <button
+                  onClick={(event) => {
+                    console.log("C3SEC Event: Save button clicked!", event); // Logs event data
+                    setCart([...cart, recipe]);
+                    alert("✅ Successfully saved your recipe!");
+                  }}
+                  className="recipe-btn save-btn"
+                >
                   Save
                 </button>
 
-                <button
-                  onClick={() => {
-                    if (navigator.share) {
-                      navigator.share({
-                        title: "Check out this recipe!",
-                        text: "Hey! Look at this delicious recipe:",
-                        url: `${window.location.href}/recipe/${recipe.id}`,
-                      })
-                        .then(() => console.log("Shared successfully!"))
-                        .catch((error) => console.log("Error sharing:", error));
-                    } else {
-                      alert("Sharing not supported on this browser.");
-                    }
-                  }}
-                  className="recipe-btn share-btn"
-                >
-                  Share Recipe
-                </button>
+
 
               </div>
             </div>

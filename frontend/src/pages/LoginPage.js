@@ -1,12 +1,15 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
-import './AuthStyles.css'; // Link to the auth form styles
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './AuthStyles.css';
 
 function LoginPage() {
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,30 +19,37 @@ function LoginPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login details:', loginData);
+
+    try {
+      const response = await axios.post('http://localhost:5001/api/login', loginData);
+
+      if (response.data.success) {
+        navigate('/home'); // Redirect to homepage
+      } else {
+        alert('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      alert('An error occurred. Please try again.');
+    }
   };
 
   return (
-    <div 
-  className="login-page" 
-  style={{
-    backgroundImage: `url(${require('../pages/images/back.jpg')})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)'  // Darker background to contrast with a white image
-  }}
->
-  {/* Your form content */}
-
-
-  
+    <div
+      className="login-page"
+      style={{
+        backgroundImage: `url(${require('../pages/images/back.jpg')})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)'  // Darker background to contrast with a white image
+      }}
+    >
       <div className="auth-container">
         <div className="auth-form">
           <h2>Login</h2>
@@ -50,6 +60,7 @@ function LoginPage() {
               value={loginData.email}
               onChange={handleChange}
               placeholder="Email"
+              required
             />
             <input
               type="password"
@@ -57,6 +68,7 @@ function LoginPage() {
               value={loginData.password}
               onChange={handleChange}
               placeholder="Password"
+              required
             />
             <button type="submit" className="auth-btn">
               Login

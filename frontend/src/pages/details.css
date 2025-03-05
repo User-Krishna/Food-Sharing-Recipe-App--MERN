@@ -43,6 +43,34 @@
 .recipe-detail:hover {
   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
 }
+.share-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.share-recipe-icon {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin-right: 19rem;
+}
+
+.share-icon {
+  width: 40px;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.share-icon:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
 
 /* 🖼️ Recipe Image Container */
 .recipe-image-container1 {

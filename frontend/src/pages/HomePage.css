@@ -69,36 +69,48 @@ body {
 
 .search-bar input {
   padding: 0.5rem;
-  border: none;
+  border: 2px solid #007bff; /* Blue border */
   border-radius: 4px;
   width: 250px;
   margin-top: 0rem;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
 }
+
+.search-bar input::placeholder {
+  color: #888; /* Light gray hint text */
+  font-style: italic;
+}
+
+.search-bar input:hover,
+.search-bar input:focus {
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  transform: scale(1.02);
+  outline: none;
+  border-color: #0056b3; /* Darker blue on focus */
+}
+
 
 /* Cart Modal */
 /* Cart Logo as Background */
 .cart-logo {
   width: 50px;
-  /* Increased size of the image */
   height: 50px;
-  /* Increased size of the image */
   background-image: url('trolley.png');
-  /* Path to your image */
   background-size: contain;
-  /* Ensure the image fits within the container */
   background-repeat: no-repeat;
-  /* Prevent the image from repeating */
   background-position: center;
-  /* Center the image */
   cursor: pointer;
-  /* Makes it clickable */
   display: inline-block;
-  /* Ensures it doesn't show as a block */
   border: none;
-  /* Removes any border */
   box-shadow: none;
-  /* Removes any shadow if present */
+  transition: transform 0.2s ease-in-out, filter 0.2s ease-in-out;
 }
+
+.cart-logo:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
 
 .cart-modal {
   position: fixed;
@@ -525,6 +537,27 @@ h2 {
     transform: translateX(-50%);
     /* Move all items completely out of view (half of the total width) */
   }
+}
+.header-actions {
+  display: flex;
+  gap: 20px; /* Adds space between icons */
+  align-items: center;
+}
+
+.icon-link {
+  display: inline-block;
+}
+
+.nav-icon {
+  width: 40px; /* Increases icon size */
+  height: 40px;
+  filter: invert(100%); /* Makes icons white for black background */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.nav-icon:hover {
+  transform: scale(1.2); /* Slight zoom effect on hover */
+  filter: invert(70%) sepia(100%) saturate(500%) hue-rotate(200deg); /* Changes color on hover */
 }
 
 .review-item {

@@ -1,6 +1,7 @@
-// src/pages/RegisterPage.js
 import React, { useState } from 'react';
-import './AuthStyles.css'; // Link to the auth form styles
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './AuthStyles.css';
 
 function RegisterPage() {
   const [userData, setUserData] = useState({
@@ -8,6 +9,8 @@ function RegisterPage() {
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,26 +20,37 @@ function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Registration details:', userData);
+
+    try {
+      const response = await axios.post('http://localhost:5001/api/register', userData);
+
+      if (response.data.success) {
+
+        navigate('/login'); // Redirect to LoginPage
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error registering user:', error);
+      alert('An error occurred. Please try again later.');
+    }
   };
 
   return (
-    <div 
-  className="login-page" 
-  style={{
-    backgroundImage: `url(${require('../pages/images/log.jpg')})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    height: '100vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }}
->
-
+    <div
+      className="login-page"
+      style={{
+        backgroundImage: `url(${require('../pages/images/log.jpg')})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
       <div className="auth-container">
         <div className="auth-form">
           <h2>Register</h2>
@@ -47,6 +61,7 @@ function RegisterPage() {
               value={userData.username}
               onChange={handleChange}
               placeholder="Username"
+              required
             />
             <input
               type="email"
@@ -54,6 +69,7 @@ function RegisterPage() {
               value={userData.email}
               onChange={handleChange}
               placeholder="Email"
+              required
             />
             <input
               type="password"
@@ -61,6 +77,7 @@ function RegisterPage() {
               value={userData.password}
               onChange={handleChange}
               placeholder="Password"
+              required
             />
             <button type="submit" className="auth-btn">
               Register
