@@ -12,6 +12,19 @@ The **Food Recipe Sharing App** is a web-based platform where users can **browse
 - ✅ **Shopping List** – Add ingredients to a personal shopping list.
 
 ---
+## 🖥️ App Screenshots  
+
+### 📌 Landing Page  
+![Landing Page](https://i.imgur.com/mBsrwwW.png)
+
+### 📌 Home Page Page  
+![Home Page](https://i.imgur.com/3Rrk5Zw.png)
+
+### 📌 Add Recipe Page  
+![Add Recipe](https://i.imgur.com/nUqfTON.png)
+
+### 📌 Recipe Details Page  
+![ Recipe Details](https://i.imgur.com/n618UDT.png)
 
 ## 📂 Frontend Structure
 
