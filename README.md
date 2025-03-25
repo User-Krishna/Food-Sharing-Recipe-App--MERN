@@ -17,7 +17,7 @@ The **Food Recipe Sharing App** is a web-based platform where users can **browse
 ### 📌 Landing Page  
 ![Landing Page](https://i.imgur.com/mBsrwwW.png)
 
-### 📌 Home Page Page  
+### 📌 Home Page  
 ![Home Page](https://i.imgur.com/3Rrk5Zw.png)
 
 ### 📌 Add Recipe Page  
